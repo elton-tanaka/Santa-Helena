@@ -5,6 +5,7 @@
  */
 package janelas_classes;
 
+
 /**
  *
  * @author EltonSSD
@@ -13,5 +14,33 @@ public class Usuario
 {
     private String nome, cpf, senha;
     private int funcao;
+    
+    
+    
+    
+    public void setNome(String n) 
+    {
+        String oldNome = nome;
+        nome = n;
+    }
+    
+    public void setCpf (String c)
+    {
+        cpf = c;
+    }
+    
+    public void setSenha (String s)
+    {
+        senha = s;
+    }
+    
+    public void setFuncao (int f)
+    {
+        funcao = f;
+    }
+    
+    public String getNome() 
+    {
+        return nome;
+    }
 }
-

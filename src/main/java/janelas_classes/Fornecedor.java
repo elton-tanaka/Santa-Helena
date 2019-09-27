@@ -5,6 +5,8 @@
  */
 package janelas_classes;
 
+
+
 /**
  *
  * @author EltonSSD
@@ -12,4 +14,32 @@ package janelas_classes;
 public class Fornecedor
 {
     private String cnpj, nome, cidade;
+    
+    //setters
+    public void setCnpj(String c)
+    {
+        cnpj = c;
+    }
+    public void setNome(String n)
+    {
+        nome = n;
+    }
+    public void cidade(String ci)
+    {
+        cidade = ci;
+    }
+    
+    //getters
+    public String getCpnj()
+    {
+        return cnpj;
+    }
+    public String getNome()
+    {
+        return nome;
+    }
+    public String getCidade()
+    {
+        return cidade;
+    }
 }

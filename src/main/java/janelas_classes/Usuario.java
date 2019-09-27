@@ -13,14 +13,13 @@ package janelas_classes;
 public class Usuario
 {
     private String nome, cpf, senha;
-    private int funcao;
     
     
     
-    
+    //setters
     public void setNome(String n) 
     {
-        String oldNome = nome;
+        //String oldNome = nome;
         nome = n;
     }
     
@@ -34,13 +33,22 @@ public class Usuario
         senha = s;
     }
     
-    public void setFuncao (int f)
-    {
-        funcao = f;
-    }
     
+    
+    //getters
     public String getNome() 
     {
         return nome;
     }
+    
+    public String getCpf()
+    {
+        return cpf;
+    }
+    
+    public String getSenha()
+    {
+        return senha;
+    }
+ 
 }

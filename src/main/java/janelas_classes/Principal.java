@@ -10,7 +10,7 @@ package janelas_classes;
  * @author EltonSSD
  */
 public class Principal{
-    
+ 
     public static void main(String[] args) {
         
         JanelaPrincipal j = new JanelaPrincipal();

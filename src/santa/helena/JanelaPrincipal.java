@@ -29,6 +29,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jMenuItem3 = new javax.swing.JMenuItem();
         jInternalFrame1 = new javax.swing.JInternalFrame();
+        areaDeTrabalho1 = new santa.helena.AreaDeTrabalho();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuCadastro = new javax.swing.JMenu();
         mnuCadProduto = new javax.swing.JMenuItem();
@@ -47,14 +48,34 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jInternalFrame1.setVisible(true);
 
         mnuCadastro.setText("Cadastro");
+        mnuCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCadastroActionPerformed(evt);
+            }
+        });
 
         mnuCadProduto.setText("Produto");
+        mnuCadProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCadProdutoActionPerformed(evt);
+            }
+        });
         mnuCadastro.add(mnuCadProduto);
 
         mnuCadUsuario.setText("Usuário");
+        mnuCadUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCadUsuarioActionPerformed(evt);
+            }
+        });
         mnuCadastro.add(mnuCadUsuario);
 
         mnuCadFornecedor.setText("Fornecedor");
+        mnuCadFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCadFornecedorActionPerformed(evt);
+            }
+        });
         mnuCadastro.add(mnuCadFornecedor);
 
         jMenuBar1.add(mnuCadastro);
@@ -65,27 +86,48 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addComponent(areaDeTrabalho1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addComponent(areaDeTrabalho1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void mnuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCadastroActionPerformed
+
+    }//GEN-LAST:event_mnuCadastroActionPerformed
+
+    private void mnuCadUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCadUsuarioActionPerformed
+        areaDeTrabalho1.abrirCadastroUsuario();
+    }//GEN-LAST:event_mnuCadUsuarioActionPerformed
+
+    private void mnuCadFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCadFornecedorActionPerformed
+        areaDeTrabalho1.abrirCadastroFornecedor();
+    }//GEN-LAST:event_mnuCadFornecedorActionPerformed
+
+    private void mnuCadProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCadProdutoActionPerformed
+        areaDeTrabalho1.abrirCadastroProduto();
+    }//GEN-LAST:event_mnuCadProdutoActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -129,6 +171,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private santa.helena.AreaDeTrabalho areaDeTrabalho1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem3;

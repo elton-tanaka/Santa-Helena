@@ -7,29 +7,109 @@ package santa.helena;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
- * @author EltonSSD
+ * @author Danilo
  */
-public class CadastroFornecedor extends javax.swing.JFrame {
+public class CadastroProduto extends javax.swing.JInternalFrame {
 
-    
-    private List<Fornecedor> lstFornecedor;
-    
     /**
      * Creates new form CadastroProduto
      */
-    public CadastroFornecedor() {
-        lstFornecedor = new ArrayList<>();
-        lstFornecedor = ObservableCollections.observableList(lstFornecedor);
+    
+    private List<Produto> lstProdutos;
+    
+    public CadastroProduto() {
+        lstProdutos = new ArrayList<>();
+        lstProdutos = ObservableCollections.observableList(lstProdutos);
+        
         initComponents();
         
+        BindingGroup bg = new BindingGroup();
+        JTableBinding tb = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                lstProdutos, tbProdutos);
+        ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
+        cb.setColumnName("Nome do Produto");
+        cb = tb.addColumnBinding(BeanProperty.create("preco"));
+        cb.setColumnName("Preco");
         
+        bg.addBinding(tb);
         
+        Binding b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbProdutos, BeanProperty.create("selectedElement.nome"),
+                txtNome, BeanProperty.create("text"));
+        bg.addBinding(b);
         
+        b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbProdutos, BeanProperty.create("selectedElement.endereco"),
+                txtPreco, BeanProperty.create("text"));
+        bg.addBinding(b);
+        
+        bg.bind();
     }
+    
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {                                          
+
+        if(getDesktopPane() instanceof AreaDeTrabalho){
+            ((AreaDeTrabalho)getDesktopPane()).fecharCadastroProduto();
+        }
+
+    }   
+    
+    private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+
+        Produto p = new Produto();
+        if(tbProdutos.getSelectedRows().length==0){
+            p.setNome(txtNome.getText());
+            p.setPreco(txtPreco.getText());
+            lstProdutos.add(p);
+            txtNome.setText("");
+            txtPreco.setText("");
+        }else{
+            lstProdutos.add(p);
+            tbProdutos.getSelectionModel().setSelectionInterval(
+                    lstProdutos.size()-1, 
+                    lstProdutos.size()-1);
+        }
+        
+    }   
+    
+    private void btMostrarListaActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        
+        for(Produto p: lstProdutos){
+            System.out.printf("Nome: %s\n",p.getNome());
+            System.out.printf("Preco: %s\n",p.getPreco());
+        }
+        
+    }   
+    
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        
+        int v[] = tbProdutos.getSelectedRows();
+        List<Produto> c = new LinkedList<>();
+        
+        for(int i=0;i<v.length;i++) 
+        {
+            int idxTabela = v[i];
+            int idxList = tbProdutos.convertRowIndexToModel(idxTabela);
+            c.add(lstProdutos.get(idxList));
+        }
+        
+        lstProdutos.removeAll(c);
+    }   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,35 +120,23 @@ public class CadastroFornecedor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jInternalFrame1 = new javax.swing.JInternalFrame();
         lblNome = new javax.swing.JLabel();
-        lblCnpj = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
-        txtCnpj = new javax.swing.JTextField();
-        scrTbProduto = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        btAdicionar = new javax.swing.JButton();
-        btVoltar = new javax.swing.JButton();
-        lblCidade = new javax.swing.JLabel();
-        txtCidade = new javax.swing.JTextField();
+        lblPreco = new javax.swing.JLabel();
+        txtPreco = new javax.swing.JTextField();
+        srcTBProduto = new javax.swing.JScrollPane();
+        tbProdutos = new javax.swing.JTable();
+        btnAdicionar = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setTitle("Cadastro de Produto");
+        setPreferredSize(new java.awt.Dimension(323, 295));
 
-        jInternalFrame1.setClosable(true);
-        jInternalFrame1.setIconifiable(true);
-        jInternalFrame1.setMaximizable(true);
-        jInternalFrame1.setTitle("Cadastro Produto");
-        jInternalFrame1.setToolTipText("");
-        try {
-            jInternalFrame1.setSelected(true);
-        } catch (java.beans.PropertyVetoException e1) {
-            e1.printStackTrace();
-        }
-        jInternalFrame1.setVisible(true);
-
-        lblNome.setText("Nome:");
-
-        lblCnpj.setText("CNPJ:");
+        lblNome.setText("Nome");
 
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,13 +144,9 @@ public class CadastroFornecedor extends javax.swing.JFrame {
             }
         });
 
-        txtCnpj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCnpjActionPerformed(evt);
-            }
-        });
+        lblPreco.setText("Preço");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -93,82 +157,57 @@ public class CadastroFornecedor extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        scrTbProduto.setViewportView(jTable1);
+        srcTBProduto.setViewportView(tbProdutos);
 
-        btAdicionar.setText("Adicionar");
-        btAdicionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAdicionarActionPerformed(evt);
-            }
-        });
+        btnAdicionar.setText("Adicionar");
 
-        btVoltar.setText("Voltar");
+        btnMostrar.setText("Mostrar");
 
-        lblCidade.setText("Cidade:");
-
-        txtCidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCidadeActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scrTbProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                            .addComponent(lblCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblCidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                            .addComponent(txtNome)
-                            .addComponent(txtCidade, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)))
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addComponent(btAdicionar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
-                        .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNome)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCnpj)
-                    .addComponent(txtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCidade)
-                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addComponent(scrTbProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btAdicionar)
-                    .addComponent(btVoltar))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+        btnRemover.setText("Remover");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(srcTBProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblNome)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPreco)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPreco))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdicionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                        .addComponent(btnRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMostrar)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNome)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPreco)
+                    .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(srcTBProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdicionar)
+                    .addComponent(btnMostrar)
+                    .addComponent(btnRemover))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,79 +217,16 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void txtCnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCnpjActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCnpjActionPerformed
-
-    private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btAdicionarActionPerformed
-
-    private void txtCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCidadeActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CadastroFornecedor().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btAdicionar;
-    private javax.swing.JButton btVoltar;
-    private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblCidade;
-    private javax.swing.JLabel lblCnpj;
+    private javax.swing.JButton btnAdicionar;
+    private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btnRemover;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JScrollPane scrTbProduto;
-    private javax.swing.JTextField txtCidade;
-    private javax.swing.JTextField txtCnpj;
+    private javax.swing.JLabel lblPreco;
+    private javax.swing.JScrollPane srcTBProduto;
+    private javax.swing.JTable tbProdutos;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtPreco;
     // End of variables declaration//GEN-END:variables
 }

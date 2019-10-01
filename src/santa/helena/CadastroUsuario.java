@@ -5,7 +5,18 @@
  */
 package santa.helena;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JDesktopPane;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
@@ -16,8 +27,54 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadastroUsuario
      */
+    private List<Usuario> lstUsuario;
     public CadastroUsuario() {
+        
+        lstUsuario = new ArrayList<>();
+        lstUsuario = ObservableCollections.observableList(lstUsuario);
+        
         initComponents();
+        
+        BindingGroup bg = new BindingGroup();
+        
+        JTableBinding tb = SwingBindings.createJTableBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                lstUsuario, tbUsuarios);
+        ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
+        cb.setColumnName("Nome");
+        cb = tb.addColumnBinding(BeanProperty.create("cpf"));
+        cb.setColumnName("CPF");
+        cb = tb.addColumnBinding(BeanProperty.create("senha"));
+        cb.setColumnName("Senha");
+        cb = tb.addColumnBinding(BeanProperty.create("funcao"));
+        cb.setColumnName("Função");
+        
+        bg.addBinding(tb);
+        
+        
+        Binding b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuarios, BeanProperty.create("selectedElement.nome"),
+                txtNome, BeanProperty.create("text"));
+        bg.addBinding(b);
+        
+        b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuarios, BeanProperty.create("selectedElement.cpf"),
+                txtCpf, BeanProperty.create("text"));
+        bg.addBinding(b);
+        
+        b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuarios, BeanProperty.create("selectedElement.senha"),
+                txtSenha, BeanProperty.create("text"));
+        bg.addBinding(b);
+        
+        b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuarios, BeanProperty.create("selectedElement.funcao"),
+                jComboBox1.getSelectedItem(), BeanProperty.create("text"));
+        bg.addBinding(b);
     }
 
     /**
@@ -88,12 +145,22 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         srcTBUsuarios.setViewportView(tbUsuarios);
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
 
         lblSenha.setText("Senha:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionario", "Gerente" }));
+        jComboBox1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jComboBox1PropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +228,28 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void jComboBox1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBox1PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1PropertyChange
 
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        Usuario u = new Usuario();
+        if(tbUsuarios.getSelectedRows().length==0){
+            u.setNome(txtNome.getText());
+            u.setCpf(txtCpf.getText());
+            u.setSenha(txtSenha.getText());
+            lstUsuario.add(u);
+            txtNome.setText("");
+            txtCpf.setText("");
+            txtSenha.setText("");
+        }else{
+            lstUsuario.add(u);
+            tbUsuarios.getSelectionModel().setSelectionInterval(
+                    lstUsuario.size()-1, 
+                    lstUsuario.size()-1);
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnRemover;

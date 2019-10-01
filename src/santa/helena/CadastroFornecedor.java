@@ -7,7 +7,6 @@ package santa.helena;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 import javax.swing.JDesktopPane;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -19,89 +18,59 @@ import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
-/**
- *
- * @author Danilo
- */
+
 public class CadastroFornecedor extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form CadastroProduto
+     * Creates new form CadastroFornecedor
      */
     
-    private List<Produto> lstProdutos;
+    private List<Fornecedor> lstFornecedor;
     
     public CadastroFornecedor() {
-        lstProdutos = new ArrayList<>();
-        lstProdutos = ObservableCollections.observableList(lstProdutos);
+        lstFornecedor = new ArrayList<>();
+        lstFornecedor = ObservableCollections.observableList(lstFornecedor);
         
         initComponents();
         
         BindingGroup bg = new BindingGroup();
+        
         JTableBinding tb = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                lstProdutos, tbFornecedor);
+                lstFornecedor, tbFornecedor);
         ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
-        cb.setColumnName("Nome do Produto");
-        cb = tb.addColumnBinding(BeanProperty.create("preco"));
-        cb.setColumnName("Preco");
+        cb.setColumnName("Fornecedor");
+        cb = tb.addColumnBinding(BeanProperty.create("cnpj"));
+        cb.setColumnName("CNPJ");
+        cb = tb.addColumnBinding(BeanProperty.create("cidade"));
+        cb.setColumnName("Cidade");
         
         bg.addBinding(tb);
         
-        Binding b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+        Binding b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
                 tbFornecedor, BeanProperty.create("selectedElement.nome"),
                 txtNome, BeanProperty.create("text"));
         bg.addBinding(b);
         
-        b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                tbFornecedor, BeanProperty.create("selectedElement.endereco"),
+        b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbFornecedor, BeanProperty.create("selectedElement.cnpj"),
                 txtCnpj, BeanProperty.create("text"));
+        bg.addBinding(b);
+        
+        b = Bindings.createAutoBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
+                tbFornecedor, BeanProperty.create("selectedElement.cidade"),
+                txtCidade, BeanProperty.create("text"));
         bg.addBinding(b);
         
         bg.bind();
     }
     
     
-    private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {                                            
-
-        Produto p = new Produto();
-        if(tbFornecedor.getSelectedRows().length==0){
-            p.setNome(txtNome.getText());
-            p.setPreco(txtCnpj.getText());
-            lstProdutos.add(p);
-            txtNome.setText("");
-            txtCnpj.setText("");
-        }else{
-            lstProdutos.add(p);
-            tbFornecedor.getSelectionModel().setSelectionInterval(
-                    lstProdutos.size()-1, 
-                    lstProdutos.size()-1);
-        }
-        
-    }   
+   
     
-    private void btMostrarListaActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        
-        for(Produto p: lstProdutos){
-            System.out.printf("Nome: %s\n",p.getNome());
-            System.out.printf("Preco: %s\n",p.getPreco());
-        }
-        
-    }   
-    
-    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        
-        int v[] = tbFornecedor.getSelectedRows();
-        List<Produto> c = new LinkedList<>();
-        
-        for(int i=0;i<v.length;i++) 
-        {
-            int idxTabela = v[i];
-            int idxList = tbFornecedor.convertRowIndexToModel(idxTabela);
-            c.add(lstProdutos.get(idxList));
-        }
-        
-        lstProdutos.removeAll(c);
-    }   
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,6 +140,11 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
         srcTBFornecedor.setViewportView(tbFornecedor);
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
 
@@ -240,6 +214,24 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
             ((AreaDeTrabalho)painel).fecharCadastroFornecedor();
         }
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        Fornecedor f = new Fornecedor();
+        if(tbFornecedor.getSelectedRows().length==0){
+            f.setNome(txtNome.getText());
+            f.setCnpj(txtCnpj.getText());
+            f.setCidade(txtCidade.getText());
+            lstFornecedor.add(f);
+            txtNome.setText("");
+            txtCnpj.setText("");
+            txtCidade.setText("");
+        }else{
+            lstFornecedor.add(f);
+            tbFornecedor.getSelectionModel().setSelectionInterval(
+                    lstFornecedor.size()-1, 
+                    lstFornecedor.size()-1);
+        }
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

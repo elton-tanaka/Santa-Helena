@@ -5,6 +5,9 @@
  */
 package santa.helena;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 
 
 /**
@@ -15,22 +18,37 @@ public class Fornecedor
 {
     private String cnpj, nome, cidade;
     
+    public static final String PROP_CNPJ = "cnpj";
+    public static final String PROP_NOME = "nome";
+    public static final String PROP_CIDADE = "cidade";
     //setters
     public void setCnpj(String c)
     {
-        cnpj = c;
+        //cnpj = c;
+        
+        String oldCnpj = this.cnpj;
+        this.cnpj = c;
+        propertyChangeSupport.firePropertyChange(PROP_CNPJ, oldCnpj, c);
     }
     public void setNome(String n)
     {
-        nome = n;
+        //nome = n;
+        
+        String oldNome = this.nome;
+        this.nome = n;
+        propertyChangeSupport.firePropertyChange(PROP_NOME, oldNome, n);
     }
-    public void cidade(String ci)
+    public void setCidade(String ci)
     {
-        cidade = ci;
+        //cidade = ci;
+        
+        String oldCidade = this.cidade;
+        this.cidade = ci;
+        propertyChangeSupport.firePropertyChange(PROP_CIDADE, oldCidade, ci);
     }
     
     //getters
-    public String getCpnj()
+    public String getCnpj()
     {
         return cnpj;
     }
@@ -41,5 +59,17 @@ public class Fornecedor
     public String getCidade()
     {
         return cidade;
+    }
+    
+    
+    
+    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 }

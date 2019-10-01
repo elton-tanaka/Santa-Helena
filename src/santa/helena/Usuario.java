@@ -5,6 +5,10 @@
  */
 package santa.helena;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+
 
 /**
  *
@@ -14,23 +18,34 @@ public class Usuario
 {
     private String nome, cpf, senha;
     
+    public static final String PROP_NOME = "nome";
+    public static final String PROP_CPF = "cpf";
+    public static final String PROP_SENHA = "senha";
     
     
     //setters
     public void setNome(String n) 
     {
-        //String oldNome = nome;
-        nome = n;
+        //nome = n;
+        String oldNome = this.nome;
+        this.nome = n;
+        propertyChangeSupport.firePropertyChange(PROP_NOME, oldNome, n);
     }
     
     public void setCpf (String c)
     {
-        cpf = c;
+        //cpf = c;
+        String oldCpf = this.cpf;
+        this.cpf = c;
+        propertyChangeSupport.firePropertyChange(PROP_CPF, oldCpf, c);
     }
     
     public void setSenha (String s)
     {
-        senha = s;
+        //senha = s;
+        String oldSenha = this.senha;
+        this.senha = s;
+        propertyChangeSupport.firePropertyChange(PROP_SENHA, oldSenha, s);
     }
     
     
@@ -51,4 +66,14 @@ public class Usuario
         return senha;
     }
  
+    
+    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
 }

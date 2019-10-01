@@ -15,7 +15,6 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
@@ -112,7 +111,7 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Cadastro de Fornecedor");
+        setTitle("Cadastro de Usuario");
         setPreferredSize(new java.awt.Dimension(400, 324));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -199,7 +198,7 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
                                     .addComponent(txtNome)
                                     .addComponent(txtSenha)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
@@ -239,7 +238,7 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         JDesktopPane painel = getDesktopPane();
         if(painel instanceof AreaDeTrabalho){
-            ((AreaDeTrabalho)painel).fecharCadastroFornecedor();
+            ((AreaDeTrabalho)painel).fecharCadastroUsuario();
         }
     }//GEN-LAST:event_formInternalFrameClosing
 

@@ -47,6 +47,21 @@ public class Usuario
         this.senha = s;
         propertyChangeSupport.firePropertyChange(PROP_SENHA, oldSenha, s);
     }
+
+    private String funcao;
+
+    public static final String PROP_FUNCAO = "funcao";
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        String oldFuncao = this.funcao;
+        this.funcao = funcao;
+        propertyChangeSupport.firePropertyChange(PROP_FUNCAO, oldFuncao, funcao);
+    }
+
     
     
     

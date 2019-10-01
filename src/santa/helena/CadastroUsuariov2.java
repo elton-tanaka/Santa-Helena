@@ -15,6 +15,7 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
@@ -65,11 +66,18 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
         bg.addBinding(b);
         
         
-        String selected_text = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
+        b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, 
+                jComboBox1, BeanProperty.create("selectedItem"),
+                tbUsuario, BeanProperty.create("selectedElement.funcao")
+                );
+        
+        bg.addBinding(b);
+        
+        /*String selected_text = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
                 tbUsuario, BeanProperty.create("selectedElement.funcao"),
                 selected_text, BeanProperty.create("text"));
-        bg.addBinding(b);
+        bg.addBinding(b);*/
         
         bg.bind();
     }

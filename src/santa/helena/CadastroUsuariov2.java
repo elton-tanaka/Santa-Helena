@@ -20,49 +20,55 @@ import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
 
-public class CadastroFornecedor extends javax.swing.JInternalFrame {
+public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form CadastroFornecedor
      */
     
-    private List<Fornecedor> lstFornecedor;
+    private List<Usuario> lstUsuario;
     
-    public CadastroFornecedor() {
-        lstFornecedor = new ArrayList<>();
-        lstFornecedor = ObservableCollections.observableList(lstFornecedor);
+    public CadastroUsuariov2() {
+        lstUsuario = new ArrayList<>();
+        lstUsuario = ObservableCollections.observableList(lstUsuario);
         
         initComponents();
         
         BindingGroup bg = new BindingGroup();
         
         JTableBinding tb = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                lstFornecedor, tbFornecedor);
+                lstUsuario, tbUsuario);
         ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
-        cb.setColumnName("Fornecedor");
-        cb = tb.addColumnBinding(BeanProperty.create("cnpj"));
-        cb.setColumnName("CNPJ");
-        cb = tb.addColumnBinding(BeanProperty.create("cidade"));
-        cb.setColumnName("Cidade");
+        cb.setColumnName("Nome");
+        cb = tb.addColumnBinding(BeanProperty.create("cpf"));
+        cb.setColumnName("CPF");
+        cb = tb.addColumnBinding(BeanProperty.create("senha"));
+        cb.setColumnName("Senha");
+        cb = tb.addColumnBinding(BeanProperty.create("funcao"));
+        cb.setColumnName("Função");
         
         bg.addBinding(tb);
         
-        Binding b = Bindings.createAutoBinding(
-                AutoBinding.UpdateStrategy.READ_WRITE,
-                tbFornecedor, BeanProperty.create("selectedElement.nome"),
+        Binding b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuario, BeanProperty.create("selectedElement.nome"),
                 txtNome, BeanProperty.create("text"));
         bg.addBinding(b);
         
-        b = Bindings.createAutoBinding(
-                AutoBinding.UpdateStrategy.READ_WRITE,
-                tbFornecedor, BeanProperty.create("selectedElement.cnpj"),
-                txtCnpj, BeanProperty.create("text"));
+        b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuario, BeanProperty.create("selectedElement.cpf"),
+                txtCpf, BeanProperty.create("text"));
         bg.addBinding(b);
         
-        b = Bindings.createAutoBinding(
-                AutoBinding.UpdateStrategy.READ_WRITE,
-                tbFornecedor, BeanProperty.create("selectedElement.cidade"),
-                txtCidade, BeanProperty.create("text"));
+        b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuario, BeanProperty.create("selectedElement.senha"),
+                txtSenha, BeanProperty.create("text"));
+        bg.addBinding(b);
+        
+        
+        String selected_text = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
+        b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                tbUsuario, BeanProperty.create("selectedElement.funcao"),
+                selected_text, BeanProperty.create("text"));
         bg.addBinding(b);
         
         bg.bind();
@@ -84,14 +90,15 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
 
         lblNome = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
-        lblCnpj = new javax.swing.JLabel();
-        txtCnpj = new javax.swing.JTextField();
-        srcTBFornecedor = new javax.swing.JScrollPane();
-        tbFornecedor = new javax.swing.JTable();
+        lblCpf = new javax.swing.JLabel();
+        txtCpf = new javax.swing.JTextField();
+        srcTBUsuario = new javax.swing.JScrollPane();
+        tbUsuario = new javax.swing.JTable();
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
-        lblCidade = new javax.swing.JLabel();
-        txtCidade = new javax.swing.JTextField();
+        lblSenha = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -125,9 +132,9 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
-        lblCnpj.setText("CNPJ:");
+        lblCpf.setText("CPF:");
 
-        tbFornecedor.setModel(new javax.swing.table.DefaultTableModel(
+        tbUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -138,7 +145,7 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        srcTBFornecedor.setViewportView(tbFornecedor);
+        srcTBUsuario.setViewportView(tbUsuario);
 
         btnAdicionar.setText("Adicionar");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +161,9 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
-        lblCidade.setText("Cidade:");
+        lblSenha.setText("Senha:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionário", "Gerente" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,17 +179,20 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(srcTBUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblNome)
-                                    .addComponent(lblCnpj)
-                                    .addComponent(lblCidade))
+                                    .addComponent(lblCpf)
+                                    .addComponent(lblSenha))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCnpj)
+                                    .addComponent(txtCpf)
                                     .addComponent(txtNome)
-                                    .addComponent(txtCidade)))
-                            .addComponent(srcTBFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                                    .addComponent(txtSenha)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -192,19 +204,21 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCnpj))
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCpf))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCidade)
-                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSenha)
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(srcTBFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(srcTBUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRemover)
                     .addComponent(btnAdicionar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,48 +236,49 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        Fornecedor f = new Fornecedor();
-        if(tbFornecedor.getSelectedRows().length==0){
-            f.setNome(txtNome.getText());
-            f.setCnpj(txtCnpj.getText());
-            f.setCidade(txtCidade.getText());
-            lstFornecedor.add(f);
+        Usuario u = new Usuario();
+        if(tbUsuario.getSelectedRows().length==0){
+            u.setNome(txtNome.getText());
+            u.setCpf(txtCpf.getText());
+            u.setSenha(txtSenha.getText());
+            lstUsuario.add(u);
             txtNome.setText("");
-            txtCnpj.setText("");
-            txtCidade.setText("");
+            txtCpf.setText("");
+            txtSenha.setText("");
         }else{
-            lstFornecedor.add(f);
-            tbFornecedor.getSelectionModel().setSelectionInterval(
-                    lstFornecedor.size()-1, 
-                    lstFornecedor.size()-1);
+            lstUsuario.add(u);
+            tbUsuario.getSelectionModel().setSelectionInterval(
+                    lstUsuario.size()-1, 
+                    lstUsuario.size()-1);
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        int v[] = tbFornecedor.getSelectedRows();
-        List<Fornecedor> c = new LinkedList<>();
+        int v[] = tbUsuario.getSelectedRows();
+        List<Usuario> u = new LinkedList<>();
         
         for(int i=0;i<v.length;i++) 
         {
             int idxTabela = v[i];
-            int idxList = tbFornecedor.convertRowIndexToModel(idxTabela);
-            c.add(lstFornecedor.get(idxList));
+            int idxList = tbUsuario.convertRowIndexToModel(idxTabela);
+            u.add(lstUsuario.get(idxList));
         }
         
-        lstFornecedor.removeAll(c);
+        lstUsuario.removeAll(u);
     }//GEN-LAST:event_btnRemoverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnRemover;
-    private javax.swing.JLabel lblCidade;
-    private javax.swing.JLabel lblCnpj;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JScrollPane srcTBFornecedor;
-    private javax.swing.JTable tbFornecedor;
-    private javax.swing.JTextField txtCidade;
-    private javax.swing.JTextField txtCnpj;
+    private javax.swing.JLabel lblSenha;
+    private javax.swing.JScrollPane srcTBUsuario;
+    private javax.swing.JTable tbUsuario;
+    private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

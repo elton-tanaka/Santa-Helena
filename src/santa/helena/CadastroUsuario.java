@@ -39,7 +39,7 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         
         JTableBinding tb = SwingBindings.createJTableBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
-                lstUsuario, tbUsuarios);
+                lstUsuario, tbUsuario);
         ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
         cb.setColumnName("Nome");
         cb = tb.addColumnBinding(BeanProperty.create("cpf"));
@@ -54,25 +54,25 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         
         Binding b = Bindings.createAutoBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
-                tbUsuarios, BeanProperty.create("selectedElement.nome"),
+                tbUsuario, BeanProperty.create("selectedElement.nome"),
                 txtNome, BeanProperty.create("text"));
         bg.addBinding(b);
         
         b = Bindings.createAutoBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
-                tbUsuarios, BeanProperty.create("selectedElement.cpf"),
+                tbUsuario, BeanProperty.create("selectedElement.cpf"),
                 txtCpf, BeanProperty.create("text"));
         bg.addBinding(b);
         
         b = Bindings.createAutoBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
-                tbUsuarios, BeanProperty.create("selectedElement.senha"),
+                tbUsuario, BeanProperty.create("selectedElement.senha"),
                 txtSenha, BeanProperty.create("text"));
         bg.addBinding(b);
         
         b = Bindings.createAutoBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
-                tbUsuarios, BeanProperty.create("selectedElement.funcao"),
+                tbUsuario, BeanProperty.create("selectedElement.funcao"),
                 jComboBox1.getSelectedItem(), BeanProperty.create("text"));
         bg.addBinding(b);
     }
@@ -90,13 +90,13 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         lblCpf = new javax.swing.JLabel();
         txtCpf = new javax.swing.JTextField();
-        srcTBUsuarios = new javax.swing.JScrollPane();
-        tbUsuarios = new javax.swing.JTable();
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         lblSenha = new javax.swing.JLabel();
         txtSenha = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
+        scrTBUsuario = new javax.swing.JScrollPane();
+        tbUsuario = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -131,19 +131,6 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
 
         lblCpf.setText("CPF:");
 
-        tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        srcTBUsuarios.setViewportView(tbUsuarios);
-
         btnAdicionar.setText("Adicionar");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,31 +149,45 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tbUsuario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrTBUsuario.setViewportView(tbUsuario);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdicionar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(161, 161, 161)
                         .addComponent(btnRemover))
-                    .addComponent(srcTBUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNome)
                             .addComponent(lblCpf)
                             .addComponent(lblSenha))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtCpf)
-                                .addComponent(txtNome)
-                                .addComponent(txtSenha)))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE))
+                            .addComponent(txtSenha)
+                            .addComponent(txtCpf)
+                            .addComponent(txtNome)))
+                    .addComponent(scrTBUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,12 +207,12 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
                 .addGap(13, 13, 13)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(srcTBUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrTBUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRemover)
                     .addComponent(btnAdicionar))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -234,7 +235,7 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         Usuario u = new Usuario();
-        if(tbUsuarios.getSelectedRows().length==0){
+        if(tbUsuario.getSelectedRows().length==0){
             u.setNome(txtNome.getText());
             u.setCpf(txtCpf.getText());
             u.setSenha(txtSenha.getText());
@@ -244,7 +245,7 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
             txtSenha.setText("");
         }else{
             lstUsuario.add(u);
-            tbUsuarios.getSelectionModel().setSelectionInterval(
+            tbUsuario.getSelectionModel().setSelectionInterval(
                     lstUsuario.size()-1, 
                     lstUsuario.size()-1);
     }//GEN-LAST:event_btnAdicionarActionPerformed
@@ -257,8 +258,8 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblSenha;
-    private javax.swing.JScrollPane srcTBUsuarios;
-    private javax.swing.JTable tbUsuarios;
+    private javax.swing.JScrollPane scrTBUsuario;
+    private javax.swing.JTable tbUsuario;
     private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtSenha;

@@ -62,7 +62,7 @@ public class AreaDeTrabalho extends JDesktopPane{
     
     public void abrirCadastroUsuario(){
         if(cadUsuario == null){
-            cadUsuario = new CadastroUsuario();
+            cadUsuario = new CadastroUsuariov2();
             cadUsuario.setVisible(true);
             add(cadUsuario);
         }

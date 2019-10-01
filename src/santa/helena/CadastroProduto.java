@@ -55,7 +55,7 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         
         b = Bindings.createAutoBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
-                tbProdutos, BeanProperty.create("selectedElement.endereco"),
+                tbProdutos, BeanProperty.create("selectedElement.preco"),
                 txtPreco, BeanProperty.create("text"));
         bg.addBinding(b);
         
@@ -63,23 +63,7 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
     }
      
     
-    private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {                                            
 
-        Produto p = new Produto();
-        if(tbProdutos.getSelectedRows().length==0){
-            p.setNome(txtNome.getText());
-            p.setPreco(txtPreco.getText());
-            lstProdutos.add(p);
-            txtNome.setText("");
-            txtPreco.setText("");
-        }else{
-            lstProdutos.add(p);
-            tbProdutos.getSelectionModel().setSelectionInterval(
-                    lstProdutos.size()-1, 
-                    lstProdutos.size()-1);
-        }
-        
-    }   
     
    /* private void btMostrarListaActionPerformed(java.awt.event.ActionEvent evt) {                                               
         
@@ -90,7 +74,7 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         
     }   
     */
-    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    /*private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                          
         
         int v[] = tbProdutos.getSelectedRows();
         List<Produto> c = new LinkedList<>();
@@ -103,7 +87,7 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         }
         
         lstProdutos.removeAll(c);
-    }   
+    }   */
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -170,8 +154,18 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         srcTBProduto.setViewportView(tbProdutos);
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,6 +226,36 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+       Produto p = new Produto();
+        if(tbProdutos.getSelectedRows().length==0){
+            p.setNome(txtNome.getText());
+            p.setPreco(txtPreco.getText());
+            lstProdutos.add(p);
+            txtNome.setText("");
+            txtPreco.setText("");
+        }else{
+            lstProdutos.add(p);
+            tbProdutos.getSelectionModel().setSelectionInterval(
+                    lstProdutos.size()-1, 
+                    lstProdutos.size()-1);
+        }
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        int v[] = tbProdutos.getSelectedRows();
+        List<Produto> c = new LinkedList<>();
+        
+        for(int i=0;i<v.length;i++) 
+        {
+            int idxTabela = v[i];
+            int idxList = tbProdutos.convertRowIndexToModel(idxTabela);
+            c.add(lstProdutos.get(idxList));
+        }
+        
+        lstProdutos.removeAll(c);
+    }//GEN-LAST:event_btnRemoverActionPerformed
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;

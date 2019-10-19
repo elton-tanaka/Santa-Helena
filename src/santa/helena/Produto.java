@@ -12,7 +12,21 @@ import java.beans.PropertyChangeSupport;
  *
  * @author Danilo
  */
+
+
 public class Produto {
+    
+    private Integer idProduto;
+
+    public Integer getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    
     private String nome;
 
     public static final String PROP_NOME = "nome";

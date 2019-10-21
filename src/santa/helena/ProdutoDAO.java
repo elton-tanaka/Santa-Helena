@@ -16,7 +16,7 @@ public class ProdutoDAO extends DAO<Produto> {
 
     @Override
     public boolean inserir(Produto element) {
-        String sql = "INSERT INTO produto (nome, preco) values (?,?);";
+        String sql = "INSERT INTO produto (nome_produto, preco_produto) values (?,?);";
         
         try{
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -39,7 +39,7 @@ public class ProdutoDAO extends DAO<Produto> {
 
     @Override
     public boolean alterar(Produto  element) {
-        String sql = "UPDATE produto set nome = ?, preco = ? WHERE (idProdutos) = ? ;";
+        String sql = "UPDATE produto set nome_produto = ?, preco_produto = ? WHERE (id_produto) = ? ;";
         try{
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, element.getNome());
@@ -59,7 +59,20 @@ public class ProdutoDAO extends DAO<Produto> {
 
     @Override
     public boolean remover(Produto element) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "DELETE FROM produto WHERE (id_produto) = ?;";
+        
+        try{
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, element.getIdProduto());
+            
+            if(stmt.executeUpdate()==1){
+                return true;
+            }
+        }catch(SQLException e){
+            System.out.println("erro ao remover");
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -76,8 +89,8 @@ public class ProdutoDAO extends DAO<Produto> {
             while(rs.next()){
                 Produto p = new Produto();
                 p.setIdProduto(rs.getInt("id_produto"));
-                p.setNome(rs.getString("nome"));
-                p.setPreco(rs.getString("preco"));
+                p.setNome(rs.getString("nome_produto"));
+                p.setPreco(rs.getString("preco_produto"));
                 lstProduto.add(p);
             }
         }catch(SQLException e){

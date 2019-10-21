@@ -17,7 +17,7 @@ public abstract class DAO <E> {
     public DAO(){
         String url = "jdbc:mysql://127.0.1:3306/SantaHelena?serverTimezone=UTC";
         String user = "root";
-        String password = "root";
+        String password = "";
         
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

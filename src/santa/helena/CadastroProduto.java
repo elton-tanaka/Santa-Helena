@@ -5,7 +5,6 @@
  */
 package santa.helena;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import javax.swing.JDesktopPane;
@@ -14,7 +13,6 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
@@ -32,8 +30,11 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
     private List<Produto> lstProdutos;
     
     public CadastroProduto() {
-        lstProdutos = new ArrayList<>();
-        lstProdutos = ObservableCollections.observableList(lstProdutos);
+        //lstProdutos = new ArrayList<>();
+        //lstProdutos = ObservableCollections.observableList(lstProdutos);
+        
+        ProdutoDAO pd = new ProdutoDAO();
+        lstProdutos = pd.listar();
         
         initComponents();
         
@@ -170,6 +171,11 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnMostrarLista.setText("Mostrar Lista");
 
@@ -189,16 +195,16 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPreco)
                             .addComponent(txtNome)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(srcTBProduto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(btnAdicionar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnSalvar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnMostrarLista)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnRemover))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdicionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSalvar)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnMostrarLista)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRemover)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(srcTBProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
@@ -220,7 +226,7 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
                     .addComponent(btnSalvar)
                     .addComponent(btnMostrarLista)
                     .addComponent(btnRemover))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,6 +260,8 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        ProdutoDAO pd = new ProdutoDAO();
+        
         int v[] = tbProdutos.getSelectedRows();
         List<Produto> c = new LinkedList<>();
         
@@ -261,11 +269,25 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         {
             int idxTabela = v[i];
             int idxList = tbProdutos.convertRowIndexToModel(idxTabela);
+            pd.remover(lstProdutos.get(idxTabela));
             c.add(lstProdutos.get(idxList));
         }
         
         lstProdutos.removeAll(c);
+        
+        
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        ProdutoDAO pd = new ProdutoDAO();
+        
+        for(Produto p: lstProdutos){
+            if(p.getIdProduto()==null)
+                pd.inserir(p);
+            else
+                pd.alterar(p);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -108,7 +108,6 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
-        btnMostrarLista = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -177,8 +176,6 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        btnMostrarLista.setText("Mostrar Lista");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,15 +194,13 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
                             .addComponent(txtNome)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdicionar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(107, 107, 107)
                         .addComponent(btnSalvar)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnMostrarLista)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnRemover)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(srcTBProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(24, 24, 24))
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,9 +219,8 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
                     .addComponent(btnSalvar)
-                    .addComponent(btnMostrarLista)
                     .addComponent(btnRemover))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -292,7 +286,6 @@ public class CadastroProduto extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
-    private javax.swing.JButton btnMostrarLista;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel lblNome;

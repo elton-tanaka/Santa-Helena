@@ -29,8 +29,12 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
     private List<Usuario> lstUsuario;
     
     public CadastroUsuariov2() {
-        lstUsuario = new ArrayList<>();
-        lstUsuario = ObservableCollections.observableList(lstUsuario);
+        //lstUsuario = new ArrayList<>();
+        //lstUsuario = ObservableCollections.observableList(lstUsuario);
+        UsuarioDAO ud = new UsuarioDAO();
+        
+        lstUsuario = ud.listar();
+        
         
         initComponents();
         
@@ -106,6 +110,7 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
         lblSenha = new javax.swing.JLabel();
         txtSenha = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnSalvar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -172,35 +177,43 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionário", "Gerente" }));
 
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdicionar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                        .addComponent(btnRemover))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAdicionar)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnSalvar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRemover))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(srcTBUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(srcTBUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNome)
-                                    .addComponent(lblCpf)
-                                    .addComponent(lblSenha))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCpf)
-                                    .addComponent(txtNome)
-                                    .addComponent(txtSenha)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                            .addComponent(lblNome)
+                            .addComponent(lblCpf)
+                            .addComponent(lblSenha))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                            .addComponent(txtSenha)
+                            .addComponent(txtNome))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,8 +237,9 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRemover)
-                    .addComponent(btnAdicionar))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addComponent(btnAdicionar)
+                    .addComponent(btnSalvar))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -261,6 +275,8 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        UsuarioDAO ud = new UsuarioDAO();
+
         int v[] = tbUsuario.getSelectedRows();
         List<Usuario> u = new LinkedList<>();
         
@@ -268,16 +284,29 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
         {
             int idxTabela = v[i];
             int idxList = tbUsuario.convertRowIndexToModel(idxTabela);
+            ud.remover(lstUsuario.get(idxTabela));
             u.add(lstUsuario.get(idxList));
         }
         
         lstUsuario.removeAll(u);
     }//GEN-LAST:event_btnRemoverActionPerformed
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        UsuarioDAO ud =  new UsuarioDAO();
+        
+        for(Usuario u: lstUsuario){
+            if(u.getIdUsuario()==null)
+                ud.inserir(u);
+            else
+                ud.alterar(u);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnRemover;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblNome;

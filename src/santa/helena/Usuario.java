@@ -22,7 +22,16 @@ public class Usuario
     public static final String PROP_CPF = "cpf";
     public static final String PROP_SENHA = "senha";
     
-    
+        private Integer IdUsuario;
+
+    public Integer getIdUsuario() {
+        return IdUsuario;
+    }
+
+    public void setIdUsuario(Integer IdUsuario) {
+        this.IdUsuario = IdUsuario;
+    }
+
     //setters
     public void setNome(String n) 
     {

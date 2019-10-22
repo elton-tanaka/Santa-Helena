@@ -21,6 +21,17 @@ public class Fornecedor
     public static final String PROP_CNPJ = "cnpj";
     public static final String PROP_NOME = "nome";
     public static final String PROP_CIDADE = "cidade";
+    
+        private Integer IdFornecedor;
+
+    public Integer getIdFornecedor() {
+        return IdFornecedor;
+    }
+
+    public void setIdFornecedor(Integer IdFornecedor) {
+        this.IdFornecedor = IdFornecedor;
+    }
+
     //setters
     public void setCnpj(String c)
     {

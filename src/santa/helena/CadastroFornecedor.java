@@ -29,8 +29,10 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
     private List<Fornecedor> lstFornecedor;
     
     public CadastroFornecedor() {
-        lstFornecedor = new ArrayList<>();
-        lstFornecedor = ObservableCollections.observableList(lstFornecedor);
+        //lstFornecedor = new ArrayList<>();
+       // lstFornecedor = ObservableCollections.observableList(lstFornecedor);
+       FornecedorDAO fd = new FornecedorDAO();
+       lstFornecedor = fd.listar();
         
         initComponents();
         
@@ -92,6 +94,7 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
         btnRemover = new javax.swing.JButton();
         lblCidade = new javax.swing.JLabel();
         txtCidade = new javax.swing.JTextField();
+        btnSalvar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -156,6 +159,13 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
 
         lblCidade.setText("Cidade:");
 
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,24 +174,28 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdicionar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                        .addComponent(btnRemover))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAdicionar)
+                                .addGap(44, 44, 44)
+                                .addComponent(btnSalvar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblNome)
                                     .addComponent(lblCnpj)
                                     .addComponent(lblCidade))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCnpj)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                                     .addComponent(txtNome)
-                                    .addComponent(txtCidade)))
-                            .addComponent(srcTBFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                                    .addComponent(txtCidade))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRemover))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(srcTBFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,8 +217,9 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRemover)
-                    .addComponent(btnAdicionar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(btnAdicionar)
+                    .addComponent(btnSalvar))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -245,18 +260,33 @@ public class CadastroFornecedor extends javax.swing.JInternalFrame {
         
         for(int i=0;i<v.length;i++) 
         {
+            FornecedorDAO fd = new FornecedorDAO();
+            
             int idxTabela = v[i];
             int idxList = tbFornecedor.convertRowIndexToModel(idxTabela);
+            fd.remover(lstFornecedor.get(idxTabela));
             c.add(lstFornecedor.get(idxList));
         }
         
         lstFornecedor.removeAll(c);
     }//GEN-LAST:event_btnRemoverActionPerformed
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        FornecedorDAO fd = new FornecedorDAO();
+            
+            for(Fornecedor f : lstFornecedor){
+            if(f.getIdFornecedor()==null)
+                fd.inserir(f);
+            else
+                fd.alterar(f);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnRemover;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel lblCidade;
     private javax.swing.JLabel lblCnpj;
     private javax.swing.JLabel lblNome;

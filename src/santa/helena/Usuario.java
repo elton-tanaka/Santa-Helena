@@ -21,6 +21,23 @@ public class Usuario
     public static final String PROP_NOME = "nome";
     public static final String PROP_CPF = "cpf";
     public static final String PROP_SENHA = "senha";
+
+
+    
+    private Gerente gerente;
+
+    public static final String PROP_GERENTE = "gerente";
+
+    public Gerente getGerente() {
+        return gerente;
+    }
+
+    public void setGerente(Gerente gerente) {
+        Gerente oldGerente = this.gerente;
+        this.gerente = gerente;
+        propertyChangeSupport.firePropertyChange(PROP_GERENTE, oldGerente, gerente);
+    }
+
     
         private Integer IdUsuario;
 

@@ -15,6 +15,7 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
@@ -27,21 +28,29 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
      */
     
     private List<Usuario> lstUsuario;
+    private List<Funcao> lstFuncao;
     
     public CadastroUsuariov2() {
         //lstUsuario = new ArrayList<>();
         //lstUsuario = ObservableCollections.observableList(lstUsuario);
         UsuarioDAO ud = new UsuarioDAO();
-        
         lstUsuario = ud.listar();
         
+        FuncaoDAO fd = new FuncaoDAO();
+        lstFuncao = fd.listar();
         
         initComponents();
         
         BindingGroup bg = new BindingGroup();
         
-        JTableBinding tb = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+        JTableBinding tb = SwingBindings.createJTableBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE,
                 lstUsuario, tbUsuario);
+        
+        JComboBoxBinding cbb = SwingBindings.createJComboBoxBinding(
+                AutoBinding.UpdateStrategy.READ_WRITE, lstFuncao, jComboBox1);
+        bg.addBinding(cbb);
+        
         ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
         cb.setColumnName("Nome");
         cb = tb.addColumnBinding(BeanProperty.create("cpf"));
@@ -70,10 +79,8 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
         
         
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, 
-                jComboBox1, BeanProperty.create("selectedItem"),
-                tbUsuario, BeanProperty.create("selectedElement.funcao")
-                );
-        
+                tbUsuario, BeanProperty.create("selectedElement.funcao"),
+                jComboBox1, BeanProperty.create("selectedItem"));
         bg.addBinding(b);
         
         /*String selected_text = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
@@ -175,7 +182,7 @@ public class CadastroUsuariov2 extends javax.swing.JInternalFrame {
 
         lblSenha.setText("Senha:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionário", "Gerente" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "item 1", "item 2", "item 3", "item 4" }));
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {

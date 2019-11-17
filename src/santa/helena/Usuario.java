@@ -21,25 +21,10 @@ public class Usuario
     public static final String PROP_NOME = "nome";
     public static final String PROP_CPF = "cpf";
     public static final String PROP_SENHA = "senha";
-
-
+ 
     
-    private Gerente gerente;
-
-    public static final String PROP_GERENTE = "gerente";
-
-    public Gerente getGerente() {
-        return gerente;
-    }
-
-    public void setGerente(Gerente gerente) {
-        Gerente oldGerente = this.gerente;
-        this.gerente = gerente;
-        propertyChangeSupport.firePropertyChange(PROP_GERENTE, oldGerente, gerente);
-    }
-
     
-        private Integer IdUsuario;
+    private Integer IdUsuario;
 
     public Integer getIdUsuario() {
         return IdUsuario;
@@ -49,6 +34,20 @@ public class Usuario
         this.IdUsuario = IdUsuario;
     }
 
+    private Funcao funcao;
+    public static final String PROP_FUNCAO = "funcao";
+    
+    public Funcao getFuncao(){
+        return funcao;
+    }
+    
+    public void setFuncao(Funcao funcao) {
+        Funcao oldfuncao = this.funcao;
+        this.funcao = funcao;
+        propertyChangeSupport.firePropertyChange(PROP_FUNCAO, oldfuncao, funcao);
+    }
+    
+    
     //setters
     public void setNome(String n) 
     {
@@ -74,23 +73,6 @@ public class Usuario
         propertyChangeSupport.firePropertyChange(PROP_SENHA, oldSenha, s);
     }
 
-    private String funcao;
-
-    public static final String PROP_FUNCAO = "funcao";
-
-    public String getFuncao() {
-        return funcao;
-    }
-
-    public void setFuncao(String funcao) {
-        String oldFuncao = this.funcao;
-        this.funcao = funcao;
-        propertyChangeSupport.firePropertyChange(PROP_FUNCAO, oldFuncao, funcao);
-    }
-
-    
-    
-    
     //getters
     public String getNome() 
     {

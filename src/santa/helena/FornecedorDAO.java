@@ -24,7 +24,9 @@ public class FornecedorDAO extends DAO<Fornecedor> {
         String sql = "INSERT INTO fornecedor (cnpj_fornecedor, nome_fornecedor, cidade_fornecedor) values (?,?,?);";
         try{
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, element.getCnpj());
+            //stmt.setStringnt.getCnpj());
+            stmt.setString(2,element.getNome());
+            //stmt.setString(3,element.getCidade())(1, element.getCnpj());
             stmt.setString(2,element.getNome());
             stmt.setString(3,element.getCidade());
             

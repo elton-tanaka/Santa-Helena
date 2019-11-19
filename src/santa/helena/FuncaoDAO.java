@@ -41,8 +41,8 @@ public class FuncaoDAO extends DAO<Funcao> {
         String sql = "SELECT * FROM funcao;";
         try{
             Statement stmt = conn.createStatement();
-            stmt.execute(sql);
-            ResultSet rs = stmt.getResultSet();
+            //stmt.execute(sql);
+            ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 Funcao f = new Funcao();
                 f.setFuncaoId(rs.getInt("id"));
@@ -52,6 +52,7 @@ public class FuncaoDAO extends DAO<Funcao> {
         }catch(SQLException e){
             System.out.println("erro ao listar" +e.getMessage());
         }
+        System.out.print(lstFuncao);
         return lstFuncao;
     }
     

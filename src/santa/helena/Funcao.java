@@ -38,7 +38,7 @@ public class Funcao {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-        private String descricao;
+    private String descricao;
 
     public static final String PROP_DESCRICAO = "descricao";
 
@@ -51,6 +51,10 @@ public class Funcao {
         this.descricao = descricao;
         propertyChangeSupport.firePropertyChange(PROP_DESCRICAO, oldDescricao, descricao);
     }
-
+    
+    @Override
+    public String toString() {
+        return descricao;
+    }
     
 }
